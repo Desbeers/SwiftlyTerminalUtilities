@@ -117,3 +117,14 @@ extension Terminal {
         NSWorkspace.shared.open([url], withApplicationAt: terminal, configuration: configuration)
     }
 }
+
+extension Terminal {
+
+    public static func which(_ item: String) async -> URL? {
+        let which = await runInShell(arguments: ["\(item)"])
+        if which.standardOutput.contains("/") {
+            return URL(filePath: which.standardOutput.trimmingCharacters(in: .newlines))
+        }
+        return nil
+    }
+}
