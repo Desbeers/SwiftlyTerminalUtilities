@@ -90,8 +90,8 @@ extension Terminal {
 
     /// The complete output from the shell
     public struct Output {
-        var standardOutput: String
-        var standardError: String
+        public var standardOutput: String
+        public var standardError: String
     }
 
     /// The stream output from the shell
@@ -115,6 +115,16 @@ extension Terminal {
         }
         let configuration = NSWorkspace.OpenConfiguration()
         NSWorkspace.shared.open([url], withApplicationAt: terminal, configuration: configuration)
+    }
+}
+
+public extension URL {
+    func openInTerminal() {
+        guard let terminal = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.apple.Terminal") else {
+            return
+        }
+        let configuration = NSWorkspace.OpenConfiguration()
+        NSWorkspace.shared.open([self], withApplicationAt: terminal, configuration: configuration)
     }
 }
 
